@@ -12,67 +12,38 @@ export const App = () => {
   const contacts = useSelector(getContacts);
   const filterName = useSelector(getFilter);
 
-// Добавляет контакт в список
-  const addContact = ({ name, number }) => {
-    const normalizedFind = name.toLowerCase();
-    const findName = contacts.find(
-      contact => contact.name.toLowerCase() === normalizedFind
-    );
-    if (findName) {
-      return alert(`${name} is already in contacts.`);
-    }
 
-    const findNumber = contacts.find(
-      contact => contact.number === number
-    );
-    if (findNumber) {
-      return alert(`This phone number is already in use.`);
+  const isDublicate = ({ name }) => {
+    const result = contacts.find(item => item.name === name);
+    return result;
+  };
+  
+  const addContact = data => {
+    if (isDublicate(data)) {
+      return alert(`${data.name} is already in contacts `);
     }
-   
-    dispatch(addContactItem(name, number));
+    dispatch(addContactItem(data));
   };
 
- const handleFilter = e => {
-     dispatch(filterContacts(e.currentTarget));   
+  const handleFilter = evt => {
+    const { value } = evt.currentTarget;
+    dispatch(filterContacts(value));
   };
 
+ // Возвращает результат фильтра
   const getFilterContact = () => {
     if (!filterName) {
       return contacts;
     }
     const normalaizedFilter = filterName.toLowerCase();
+
     return contacts.filter(({ name }) => {
       const normalaizedName = name.toLowerCase();
       const result = normalaizedName.includes(normalaizedFilter);
       return result;
     });
   };
-  
-  // // Возвращает результат фильтра
-  // const getFilterContact = () => {  
-  //   if (!filterName) {
-  //     return contacts;
-  //   }
-  //   const normalizedFilter = filterName.toLowerCase();
-
-  //   return contacts.filterName(({ name }) => {
-  //     const normalaizedName = name.toLowerCase();
-  //     const result = normalaizedName.includes(normalizedFilter);
-  //     return result;
-  //   });
-  // };
-
-  // Удаляет контакт из списка
-  // const deleteContact = contactId => {    
-  //     contacts.filterName(contact => contact.id !== contactId)
-    
-  // };
-
-  // const handleFilter = e => {
-  //    dispatch(filterContacts(e.currentTarget));   
-  // };
-
-  // const visibleContacts = getContacts();
+   
 
   return (
         <Container>
@@ -84,7 +55,7 @@ export const App = () => {
             <TitleH2>Contacts</TitleH2>
             <Filter value={filterName} onChange={handleFilter} />
             <ContactList
-              contacts={getFilterContact()}             
+              contacts={getFilterContact()}              
             />
           </Section>
         </Container>
