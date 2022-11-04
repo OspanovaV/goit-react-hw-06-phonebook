@@ -1,9 +1,13 @@
 import { useState } from 'react';
+import { nanoid } from 'nanoid';
 import { Form, Label, Input, Button } from './ContactFormStyled';
 
-export function ContactForm({onSubmit}) {
+export function ContactForm({onAddContacs}) {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+
+  const nameId = nanoid(5);
+  const numberId = nanoid(5);
 
 //обновление состояния
   const handleChange = event => {
@@ -20,7 +24,7 @@ export function ContactForm({onSubmit}) {
 
   const handleSubmit = event => {
     event.preventDefault();
-    onSubmit({name, number});
+    onAddContacs({name, number});
     setName ('');
     setNumber ('');
     };
@@ -30,6 +34,7 @@ export function ContactForm({onSubmit}) {
       <Label htmlFor={name}>
         Name
         <Input
+          id={nameId}
           type="text"
           name="name"
           value={name}
@@ -43,6 +48,7 @@ export function ContactForm({onSubmit}) {
       <Label htmlFor={number}>
         Number
         <Input
+          id={numberId}
           type="tel"
           name="number"
           value={number}

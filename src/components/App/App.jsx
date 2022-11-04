@@ -1,34 +1,16 @@
-import { useState, useEffect } from 'react';
-import { nanoid } from 'nanoid';
+import { useSelector, useDispatch } from 'react-redux';
 import { ContactForm } from 'components/ContactForm/ContactForm';
 import { Filter } from 'components/Filter/Filter';
 import { ContactList } from 'components/ContactList/ContactList';
+import { filterContacts } from 'redux/filterSlice';
+import { getContacts, getFilter } from 'redux/selector';
+import { addContactItem } from 'redux/contactsSlice';
 import { Container, Section, TitleH1, TitleH2 } from './AppStyled';
 
-export function App() {
-  const [contacts, setContacts] = useState([
-    { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-    { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-    { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-    { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-  ]);
-  const [filter, setFilter] = useState('');
-
-  //Считываются данные из localStorage и записываем в State
-  useEffect(() => {
-    const contacts = localStorage.getItem('contacts');
-    const parsedСontacts = JSON.parse(contacts);
-
-    if (parsedСontacts) {
-      setContacts(parsedСontacts);
-    }
-    return;
-  }, []);
-
-//Добавляет новый контакт в localStorage
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));   
-  }, [contacts]);
+export const App = () => {
+  const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
+  const filterName = useSelector(getFilter);
 
 // Добавляет контакт в список
   const addContact = ({ name, number }) => {
@@ -46,48 +28,63 @@ export function App() {
     if (findNumber) {
       return alert(`This phone number is already in use.`);
     }
-    const newContact = {
-      id: nanoid(),
-      name,
-      number,
-    };
-    setContacts(contacts => [...contacts, newContact]);
    
+    dispatch(addContactItem(name, number));
   };
 
-  // Возвращает результат фильтра
-  const getContacts = () => {
-    const normalizedFilter = filter.toLowerCase();
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(normalizedFilter)
-    );
+ const handleFilter = e => {
+     dispatch(filterContacts(e.currentTarget));   
   };
+
+  const getFilterContact = () => {
+    if (!filterName) {
+      return contacts;
+    }
+    const normalaizedFilter = filterName.toLowerCase();
+    return contacts.filter(({ name }) => {
+      const normalaizedName = name.toLowerCase();
+      const result = normalaizedName.includes(normalaizedFilter);
+      return result;
+    });
+  };
+  
+  // // Возвращает результат фильтра
+  // const getFilterContact = () => {  
+  //   if (!filterName) {
+  //     return contacts;
+  //   }
+  //   const normalizedFilter = filterName.toLowerCase();
+
+  //   return contacts.filterName(({ name }) => {
+  //     const normalaizedName = name.toLowerCase();
+  //     const result = normalaizedName.includes(normalizedFilter);
+  //     return result;
+  //   });
+  // };
 
   // Удаляет контакт из списка
-  const deleteContact = contactId => {
-    setContacts(contacts => 
-      contacts.filter(contact => contact.id !== contactId)
-    );
-  };
+  // const deleteContact = contactId => {    
+  //     contacts.filterName(contact => contact.id !== contactId)
+    
+  // };
 
-  const handleFilter = e => {
-     setFilter(e.currentTarget);   
-  };
+  // const handleFilter = e => {
+  //    dispatch(filterContacts(e.currentTarget));   
+  // };
 
-  const visibleContacts = getContacts();
+  // const visibleContacts = getContacts();
 
   return (
         <Container>
           <Section title="Phonebook">
             <TitleH1>Phonebook</TitleH1>
-            <ContactForm onSubmit={addContact} />
+            <ContactForm onAddContacs={addContact} />
           </Section>
           <Section title="Contacts">
             <TitleH2>Contacts</TitleH2>
-            <Filter value={filter} onChange={handleFilter} />
+            <Filter value={filterName} onChange={handleFilter} />
             <ContactList
-              contacts={visibleContacts}
-              onDeleteContact={deleteContact}
+              contacts={getFilterContact()}             
             />
           </Section>
         </Container>
