@@ -12,7 +12,7 @@ export const App = () => {
   const contacts = useSelector(getContacts);
   const filterName = useSelector(getFilter);
 
-
+// Добавляет контакт в список
   const isDublicate = ({ name }) => {
     const result = contacts.find(item => item.name === name);
     return result;
@@ -25,6 +25,25 @@ export const App = () => {
     dispatch(addContactItem(data));
   };
 
+  //  const addContact = ({ name, number }) => {
+  //   const normalizedFind = name.toLowerCase();
+  //   const findName = contacts.find(
+  //     contact => contact.name.toLowerCase() === normalizedFind
+  //   );
+  //   if (findName) {
+  //     return alert(`${name} is already in contacts.`);
+  //   }
+
+  //   const findNumber = contacts.find(
+  //     contact => contact.number === number
+  //   );
+  //   if (findNumber) {
+  //     return alert(`This phone number is already in use.`);
+  //   }
+   
+  //  dispatch(addContactItem());
+  // };
+  
   const handleFilter = evt => {
     const { value } = evt.currentTarget;
     dispatch(filterContacts(value));
@@ -55,7 +74,7 @@ export const App = () => {
             <TitleH2>Contacts</TitleH2>
             <Filter value={filterName} onChange={handleFilter} />
             <ContactList
-              contacts={getFilterContact()}              
+              contacts={getFilterContact()}             
             />
           </Section>
         </Container>
