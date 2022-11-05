@@ -7,9 +7,9 @@ acquainted and configure additional features
 
 # Contact book
 
-Выполни рефакторинг кода приложения «Книга контактов» добавив управление
-состоянием при помощи библиотеки [Redux Toolkit](https://redux-toolkit.js.org/).
-Пусть Redux-состояние выглядит следующим образом.
+Refactor the application code «Contact book», add state control library help
+[Redux Toolkit](https://redux-toolkit.js.org/). Let the Redux-state look like as
+follows.
 
 ```json
 {
@@ -18,14 +18,13 @@ acquainted and configure additional features
 }
 ```
 
-- Создай хранилище с 'configureStore()'
-- Используй функцию 'createSlice()'
-- Создай действия сохранения и удаления контакта, а также обновления фильтра
-- Свяжи React-компоненты с Redux-логикой при помощи хуков бибилиотеки
+- Create a vault with 'configureStore()'
+- Use the function 'createSlice()'
+- Create actions to save and delete a contact and update the filter
+- Bind the React-components to Redux-logic using bibliotheca hooks
   [react-redux](https://react-redux.js.org/)
-- Используй библиотеку
-  [Redux Persist](https://github.com/rt2zz/redux-persist#readme) для сохранения
-  массива контактов в локальное хранилище
+- Use the library [Redux Persist](https://github.com/rt2zz/redux-persist#readme)
+  to save an array of contacts to local storage
 
 ## Preparing a new project
 
