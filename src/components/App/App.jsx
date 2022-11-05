@@ -11,38 +11,26 @@ export const App = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(getContacts);
   const filterName = useSelector(getFilter);
-
-// Добавляет контакт в список
-  const isDublicate = ({ name }) => {
-    const result = contacts.find(item => item.name === name);
-    return result;
-  };
   
-  const addContact = data => {
-    if (isDublicate(data)) {
-      return alert(`${data.name} is already in contacts `);
+// Добавляет контакт в список
+   const addContact = ({ name, number }) => {
+    const normalizedFind = name.toLowerCase();
+    const findName = contacts.find(
+      contact => contact.name.toLowerCase() === normalizedFind
+    );
+    if (findName) {
+      return alert(`${name} is already in contacts.`);
     }
-    dispatch(addContactItem(data));
-  };
 
-  //  const addContact = ({ name, number }) => {
-  //   const normalizedFind = name.toLowerCase();
-  //   const findName = contacts.find(
-  //     contact => contact.name.toLowerCase() === normalizedFind
-  //   );
-  //   if (findName) {
-  //     return alert(`${name} is already in contacts.`);
-  //   }
-
-  //   const findNumber = contacts.find(
-  //     contact => contact.number === number
-  //   );
-  //   if (findNumber) {
-  //     return alert(`This phone number is already in use.`);
-  //   }
+    const findNumber = contacts.find(
+      contact => contact.number === number
+    );
+    if (findNumber) {
+      return alert(`This phone number is already in use.`);
+    }
    
-  //  dispatch(addContactItem());
-  // };
+     dispatch(addContactItem({ name, number }));
+  };
   
   const handleFilter = evt => {
     const { value } = evt.currentTarget;
