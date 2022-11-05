@@ -1,5 +1,5 @@
-**Read in other languages: [Русский](README.md), [Polska](README.pl.md),
-[English](README.en.md), [Spanish](README.es.md).**
+**Read in other languages: [Русский](README.md), [English](README.en.md),
+[Spanish](README.es.md).**
 
 # React homework template
 
@@ -7,6 +7,28 @@
 [Create React App](https://github.com/facebook/create-react-app). Для знакомства
 и настройки дополнительных возможностей
 [обратись к документации](https://facebook.github.io/create-react-app/docs/getting-started).
+
+# Книга контактов
+
+Выполни рефакторинг кода приложения «Книга контактов» добавив управление
+состоянием при помощи библиотеки [Redux Toolkit](https://redux-toolkit.js.org/).
+Пусть Redux-состояние выглядит следующим образом.
+
+```json
+{
+  "contacts": [],
+  "filter": ""
+}
+```
+
+- Создай хранилище с 'configureStore()'
+- Используй функцию 'createSlice()'
+- Создай действия сохранения и удаления контакта, а также обновления фильтра
+- Свяжи React-компоненты с Redux-логикой при помощи хуков бибилиотеки
+  [react-redux](https://react-redux.js.org/)
+- Используй библиотеку
+  [Redux Persist](https://github.com/rt2zz/redux-persist#readme) для сохранения
+  массива контактов в локальное хранилище
 
 ## Подготовка нового проекта
 
