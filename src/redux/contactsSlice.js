@@ -17,7 +17,11 @@ const contactsSlice = createSlice({
             })
         },
         onDeleteContact(state, action) {
-            state.contacts = state.contacts.filter(item => item.id !== action.payload);
+//state.contacts = state.contacts.filter(item => item.id !== action.payload); //запись изменения стейта используя IMMER
+            return {
+                ...state,
+                contacts: state.contacts.filter(item => item.id !== action.payload)
+            };
         },
     }
 });

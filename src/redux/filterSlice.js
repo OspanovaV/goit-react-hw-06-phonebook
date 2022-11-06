@@ -7,7 +7,11 @@ const filterSlice = createSlice({
     },
     reducers: {
         filterContacts(state, action) {
-            state.filter = action.payload;
+// state.filter = action.payload;//запись изменения стейта используя IMMER
+            return {
+                ...state,
+                filter: action.payload
+            };
         },
     }    
 })
